@@ -20,10 +20,7 @@ function Step2OneOnOneDms({ state, dispatch, onNext, onPrev }) {
       if (!dm.userId2) {
         newErrors[`userId2_${index}`] = 'User ID #2 is required';
       }
-      
-      if (dm.userId1 && dm.userId2 && dm.userId1 === dm.userId2) {
-        newErrors[`userId2_${index}`] = 'User IDs must be unique';
-      }
+      // Slack supports self-DMs where both user IDs are the same.
     });
     
     setErrors(newErrors);

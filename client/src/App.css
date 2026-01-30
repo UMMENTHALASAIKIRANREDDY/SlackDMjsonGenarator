@@ -1,3 +1,15 @@
+/* Reverted layout/theme back to original wizard view */
+:root {
+  --accent: #0057b8;         /* primary blue */
+  --accent-700: #003e86;     /* darker blue */
+  --accent-100: rgba(0, 87, 184, 0.10);
+  --surface: rgba(255, 255, 255, 0.96);
+  --surface-strong: rgba(255, 255, 255, 0.98);
+  --border: rgba(255, 255, 255, 0.28);
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.70);
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -9,15 +21,16 @@
 }
 
 .wizard-container {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.40),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   width: 100%;
   max-width: 900px;
-  padding: 50px;
+  padding: 52px;
   margin: 20px;
   animation: slideUp 0.6s ease-out;
   position: relative;
@@ -30,8 +43,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  height: 6px;
+  background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0.55), #ffffff);
   animation: shimmer 3s infinite;
 }
 
@@ -61,23 +74,27 @@
 }
 
 .wizard-header h1 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, #0b4aa0 60%, var(--accent-700) 120%);
+  color: #ffffff;
   margin-bottom: 30px;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  animation: fadeIn 0.8s ease-out;
+  font-size: 2.35rem;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 87, 184, 0.25);
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+@media (max-width: 640px) {
+  .wizard-header h1 {
+    font-size: 1.8rem;
+    padding: 10px 14px;
+    border-radius: 14px;
   }
 }
 
@@ -113,8 +130,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
-  color: #666;
+  background: rgba(255, 255, 255, 0.85);
+  color: rgba(15, 23, 42, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,8 +140,8 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 3px solid transparent;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.35);
 }
 
 .step:hover {
@@ -132,30 +149,25 @@
 }
 
 .step.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #0b4aa0 60%, var(--accent-700) 120%);
   color: white;
-  box-shadow: 
-    0 8px 20px rgba(102, 126, 234, 0.4),
-    0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow:
+    0 14px 32px rgba(0, 87, 184, 0.38),
+    0 0 0 5px rgba(0, 87, 184, 0.12);
   transform: scale(1.15);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 
-      0 8px 20px rgba(102, 126, 234, 0.4),
-      0 0 0 4px rgba(102, 126, 234, 0.1);
-  }
-  50% {
-    box-shadow: 
-      0 8px 25px rgba(102, 126, 234, 0.6),
-      0 0 0 6px rgba(102, 126, 234, 0.15);
-  }
 }
 
 .wizard-content {
   min-height: 400px;
+}
+
+.wizard-content h2 {
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.wizard-content p {
+  color: var(--muted) !important;
 }
 
 .form-group {
@@ -165,7 +177,7 @@
 .form-group label {
   display: block;
   margin-bottom: 10px;
-  color: #555;
+  color: rgba(15, 23, 42, 0.78);
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0.3px;
@@ -174,26 +186,25 @@
 .form-group input {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid rgba(15, 23, 42, 0.10);
   border-radius: 10px;
   font-size: 16px;
   transition: all 0.3s ease;
-  background: #fafafa;
+  background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .form-group input:hover {
-  border-color: #c0c0c0;
-  background: #fff;
+  border-color: rgba(0, 87, 184, 0.35);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  background: #fff;
-  box-shadow: 
-    0 0 0 4px rgba(102, 126, 234, 0.1),
-    0 4px 12px rgba(102, 126, 234, 0.15);
+  border-color: rgba(0, 87, 184, 0.85);
+  background: rgba(255, 255, 255, 1);
+  box-shadow:
+    0 0 0 5px rgba(0, 87, 184, 0.14),
+    0 10px 26px rgba(0, 0, 0, 0.10);
   transform: translateY(-1px);
 }
 
@@ -259,14 +270,14 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #0b4aa0 60%, var(--accent-700) 120%);
   color: white;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+  background: linear-gradient(135deg, #004a9d 0%, #0b4aa0 60%, #00336f 120%);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 16px 34px rgba(0, 87, 184, 0.35);
 }
 
 .btn-primary:active {
@@ -275,14 +286,14 @@
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  background: rgba(15, 23, 42, 0.82);
   color: white;
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  background: rgba(15, 23, 42, 0.92);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.20);
 }
 
 .btn:disabled {
@@ -321,6 +332,19 @@
   flex-direction: column;
   gap: 15px;
   margin-top: 20px;
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (max-width: 640px) {
+  .toggle-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .toggle-item {

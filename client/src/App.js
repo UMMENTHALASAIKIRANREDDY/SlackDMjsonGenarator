@@ -16,11 +16,28 @@ const initialState = {
     startDate: '',
     numberOfDates: 1,
     messagesPerDate: 10,
+    repliesPerMessage: 2,
+    // Master controls (Step 4 toggles)
+    formatBold: false,
+    formatItalic: false,
+    formatStrikethrough: false,
+    formatUnderline: false,
+
+    includeEmojis: false,
     includeMentions: false,
     includeDoubleMentions: false,
+    includeLinks: false,
     includeReactions: false,
-    includeFileUploads: false,
-    includeThreads: false,
+    includeStickers: false,
+    includeGifs: false,
+    includeFilesWithText: false,
+    includeMultipleFiles: false,
+
+    includeBotMessages: false,
+    includePinnedMessages: false,
+    includeThreads: false, // threaded messages
+    includeThreadReplies: false,
+    includeFileUploads: false, // legacy/back-compat (kept)
     includeForwardedMessages: false,
     includeEditedMessages: false,
   },
@@ -125,7 +142,7 @@ function App() {
           {renderStep()}
         </div>
         <div className="developer-credit">
-          Developed by Kiran Ummenthala
+          Developed by Cloudfuze 
         </div>
       </div>
     </div>

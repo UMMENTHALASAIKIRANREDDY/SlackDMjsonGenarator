@@ -22,11 +22,13 @@ function Step3GroupDms({ state, dispatch, onNext, onPrev }) {
       }
       
       if (!groupDM.memberUserIds) {
-        newErrors[`memberUserIds_${index}`] = 'Member User IDs are required';
+        newErrors[`memberUserIds_${index}`] = 'Remaining Member User IDs are required';
       } else {
         const memberIds = groupDM.memberUserIds.split(',').map(id => id.trim()).filter(id => id);
-        if (memberIds.length < 3) {
-          newErrors[`memberUserIds_${index}`] = 'Minimum 3 member user IDs required (comma-separated)';
+        // UI should collect remaining members (excluding creator).
+        // Creator is auto-included by the backend and de-duplicated.
+        if (memberIds.length < 2) {
+          newErrors[`memberUserIds_${index}`] = 'Minimum 2 remaining member user IDs required (comma-separated)';
         }
       }
     });
@@ -124,11 +126,11 @@ function Step3GroupDms({ state, dispatch, onNext, onPrev }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor={`memberUserIds_${index}`}>Member User IDs (comma-separated, minimum 3)</label>
+            <label htmlFor={`memberUserIds_${index}`}>Remaining Member User IDs (exclude creator; comma-separated, minimum 2)</label>
             <input
               id={`memberUserIds_${index}`}
               type="text"
-              placeholder="e.g. U01234567, U09876543, U05555555"
+              placeholder="e.g. U01Q6BUB4NQ, U08FY177QQ0"
               value={groupDM.memberUserIds}
               onChange={(e) => updateGroupDm(index, 'memberUserIds', e.target.value)}
               className={errors[`memberUserIds_${index}`] ? 'error' : ''}

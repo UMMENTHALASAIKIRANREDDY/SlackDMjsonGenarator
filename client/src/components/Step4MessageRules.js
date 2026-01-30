@@ -3,6 +3,37 @@ import React, { useState } from 'react';
 function Step4MessageRules({ state, dispatch, onNext, onPrev }) {
   const [errors, setErrors] = useState({});
 
+  const toggleFields = [
+    // TEXT FORMATTING
+    'formatBold',
+    'formatItalic',
+    'formatStrikethrough',
+    'formatUnderline',
+
+    // CONTENT TYPES
+    'includeEmojis',
+    'includeMentions',
+    'includeDoubleMentions',
+    'includeLinks',
+    'includeReactions',
+    'includeStickers',
+    'includeGifs',
+    'includeFilesWithText',
+    'includeMultipleFiles',
+
+    // MESSAGE TYPES
+    'includeBotMessages',
+    'includePinnedMessages',
+    'includeThreads',
+    'includeThreadReplies',
+
+    // Existing message types kept in the app
+    'includeForwardedMessages',
+    'includeEditedMessages',
+  ];
+
+  const areAllMessageTypesSelected = toggleFields.every((f) => Boolean(state.messageRules[f]));
+
   const validate = () => {
     const newErrors = {};
     const { messageRules } = state;
@@ -17,6 +48,13 @@ function Step4MessageRules({ state, dispatch, onNext, onPrev }) {
     
     if (!messageRules.messagesPerDate || messageRules.messagesPerDate < 1) {
       newErrors.messagesPerDate = 'Messages per Date must be at least 1';
+    }
+
+    if (messageRules.includeThreads && messageRules.includeThreadReplies) {
+      const v = messageRules.repliesPerMessage;
+      if (!Number.isInteger(v) || v < 0) {
+        newErrors.repliesPerMessage = 'Replies per Message must be a valid non-negative integer';
+      }
     }
     
     setErrors(newErrors);
@@ -36,12 +74,48 @@ function Step4MessageRules({ state, dispatch, onNext, onPrev }) {
     });
   };
 
+  const setAllMessageTypes = (enabled) => {
+    for (const field of toggleFields) {
+      updateRule(field, enabled);
+    }
+  };
+
+  const Toggle = ({ id, label }) => (
+    <div className="toggle-item">
+      <label htmlFor={id}>{label}</label>
+      <label className="toggle-switch">
+        <input
+          type="checkbox"
+          id={id}
+          checked={Boolean(state.messageRules[id])}
+          onChange={(e) => updateRule(id, e.target.checked)}
+        />
+        <span className="toggle-slider"></span>
+      </label>
+    </div>
+  );
+
   return (
     <div>
       <h2>Step 4 – Message Generation Rules</h2>
       <p style={{ color: '#666', marginBottom: '30px' }}>
         Configure message generation settings for all DMs
       </p>
+
+      <div className="toggle-group" style={{ marginBottom: '20px' }}>
+        <div className="toggle-item">
+          <label htmlFor="selectAllMessageTypes">Select All Message Types</label>
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              id="selectAllMessageTypes"
+              checked={areAllMessageTypesSelected}
+              onChange={(e) => setAllMessageTypes(e.target.checked)}
+            />
+            <span className="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
 
       <div className="form-group">
         <label htmlFor="startDate">Start Date</label>
@@ -87,96 +161,60 @@ function Step4MessageRules({ state, dispatch, onNext, onPrev }) {
         )}
       </div>
 
-      <div className="toggle-group">
-        <div className="toggle-item">
-          <label htmlFor="includeMentions">Include mentions</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeMentions"
-              checked={state.messageRules.includeMentions}
-              onChange={(e) => updateRule('includeMentions', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
+      <div className="form-group">
+        <label htmlFor="repliesPerMessage">Replies per Message (threads)</label>
+        <input
+          id="repliesPerMessage"
+          type="number"
+          min="0"
+          value={Number.isFinite(state.messageRules.repliesPerMessage) ? state.messageRules.repliesPerMessage : 0}
+          onChange={(e) => {
+            const raw = e.target.value;
+            // Avoid NaN getting stuck in state (which can make the input feel "uneditable")
+            const next = raw === '' ? 0 : parseInt(raw, 10);
+            updateRule('repliesPerMessage', Number.isFinite(next) ? next : 0);
+          }}
+          className={errors.repliesPerMessage ? 'error' : ''}
+        />
+        {errors.repliesPerMessage && (
+          <div className="error-message">{errors.repliesPerMessage}</div>
+        )}
+      </div>
 
-        <div className="toggle-item">
-          <label htmlFor="includeDoubleMentions">Include double mentions</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeDoubleMentions"
-              checked={state.messageRules.includeDoubleMentions}
-              onChange={(e) => updateRule('includeDoubleMentions', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
+      <div className="card" style={{ marginTop: '10px' }}>
+        <h3>Text Formatting</h3>
+        <div className="toggle-grid">
+          <Toggle id="formatBold" label="Bold" />
+          <Toggle id="formatItalic" label="Italic" />
+          <Toggle id="formatStrikethrough" label="Strikethrough" />
+          <Toggle id="formatUnderline" label="Underline" />
         </div>
+      </div>
 
-        <div className="toggle-item">
-          <label htmlFor="includeReactions">Include reactions</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeReactions"
-              checked={state.messageRules.includeReactions}
-              onChange={(e) => updateRule('includeReactions', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
+      <div className="card">
+        <h3>Content Types</h3>
+        <div className="toggle-grid">
+          <Toggle id="includeEmojis" label="Emojis" />
+          <Toggle id="includeMentions" label="Mentions" />
+          <Toggle id="includeDoubleMentions" label="Double mentions" />
+          <Toggle id="includeLinks" label="Links" />
+          <Toggle id="includeReactions" label="Reactions" />
+          <Toggle id="includeStickers" label="Stickers" />
+          <Toggle id="includeGifs" label="GIFs" />
+          <Toggle id="includeFilesWithText" label="Files with text" />
+          <Toggle id="includeMultipleFiles" label="Multiple files in one message" />
         </div>
+      </div>
 
-        <div className="toggle-item">
-          <label htmlFor="includeFileUploads">Include file uploads</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeFileUploads"
-              checked={state.messageRules.includeFileUploads}
-              onChange={(e) => updateRule('includeFileUploads', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="toggle-item">
-          <label htmlFor="includeThreads">Include threads</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeThreads"
-              checked={state.messageRules.includeThreads}
-              onChange={(e) => updateRule('includeThreads', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="toggle-item">
-          <label htmlFor="includeForwardedMessages">Include forwarded messages</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeForwardedMessages"
-              checked={state.messageRules.includeForwardedMessages}
-              onChange={(e) => updateRule('includeForwardedMessages', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="toggle-item">
-          <label htmlFor="includeEditedMessages">Include edited messages</label>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              id="includeEditedMessages"
-              checked={state.messageRules.includeEditedMessages}
-              onChange={(e) => updateRule('includeEditedMessages', e.target.checked)}
-            />
-            <span className="toggle-slider"></span>
-          </label>
+      <div className="card">
+        <h3>Message Types</h3>
+        <div className="toggle-grid">
+          <Toggle id="includeBotMessages" label="Bot messages" />
+          <Toggle id="includePinnedMessages" label="Pinned messages" />
+          <Toggle id="includeThreads" label="Threaded messages" />
+          <Toggle id="includeThreadReplies" label="Replies in threads" />
+          <Toggle id="includeForwardedMessages" label="Forwarded messages" />
+          <Toggle id="includeEditedMessages" label="Edited messages" />
         </div>
       </div>
 

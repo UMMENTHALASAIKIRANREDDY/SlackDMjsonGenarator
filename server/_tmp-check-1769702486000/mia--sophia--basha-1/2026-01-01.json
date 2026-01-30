@@ -1,0 +1,1287 @@
+[
+  {
+    "type": "message",
+    "ts": "1767225600",
+    "text": ":fire: Thanks for the update. <https://docs.slack.dev/reference/block-kit/blocks/rich-text-block>",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "fire"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Thanks for "
+              },
+              {
+                "type": "text",
+                "text": "the",
+                "style": {
+                  "bold": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " update."
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://docs.slack.dev/reference/block-kit/blocks/rich-text-block"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "reactions": [
+      {
+        "name": "heart",
+        "count": 1,
+        "users": [
+          "U01PX3DRDMK"
+        ]
+      }
+    ],
+    "reply_count": 3,
+    "reply_users": [
+      "U01PX3DRDMK",
+      "U08FY177QQ0"
+    ],
+    "reply_users_count": 2,
+    "latest_reply": "1767225780"
+  },
+  {
+    "type": "message",
+    "ts": "1767225660",
+    "thread_ts": "1767225600",
+    "text": "<@U01Q6BUB4NQ> <@U01Q6BUB4NQ> <@U08FY177QQ0> I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "I'll send "
+              },
+              {
+                "type": "text",
+                "text": "that",
+                "style": {
+                  "italic": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " over shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "parent_user_id": "U08FY177QQ0"
+  },
+  {
+    "type": "message",
+    "ts": "1767225720",
+    "thread_ts": "1767225600",
+    "text": "Just checking in!",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Just "
+              },
+              {
+                "type": "text",
+                "text": "checking",
+                "style": {
+                  "bold": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " in!"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U08FY177QQ0"
+  },
+  {
+    "type": "message",
+    "ts": "1767225780",
+    "thread_ts": "1767225600",
+    "text": "Please review the attached file(s).",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Please review "
+              },
+              {
+                "type": "text",
+                "text": "the",
+                "style": {
+                  "strike": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " attached file(s)."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U08FY177QQ0",
+    "files": [
+      {
+        "id": "FYU1IJ9F8V",
+        "created": 1767225780,
+        "timestamp": 1767225780,
+        "name": "Meeting Notes — Q1.mp4",
+        "title": "Meeting Notes — Q1.mp4",
+        "mimetype": "video/mp4",
+        "filetype": "mp4",
+        "pretty_type": "MP4 Video",
+        "user": "U08FY177QQ0",
+        "size": 4896729,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FYU1IJ9F8V/Meeting%20Notes%20%E2%80%94%20Q1.mp4",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FYU1IJ9F8V/Meeting%20Notes%20%E2%80%94%20Q1.mp4?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/FYU1IJ9F8V/Meeting%20Notes%20%E2%80%94%20Q1.mp4"
+      }
+    ],
+    "subtype": "file_share"
+  },
+  {
+    "type": "message",
+    "ts": "1767229200",
+    "text": "<@U01Q6BUB4NQ> <@U01PX3DRDMK> Hey, how are you doing? (edited)",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Hey, how are you "
+              },
+              {
+                "type": "text",
+                "text": "doing? (edited)",
+                "style": {
+                  "italic": true
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "files": [
+      {
+        "id": "FYYWZYRD5Z",
+        "created": 1767229200,
+        "timestamp": 1767229200,
+        "name": "Quarterly Report (Final).docx",
+        "title": "Quarterly Report (Final).docx",
+        "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "filetype": "docx",
+        "pretty_type": "Word Document",
+        "user": "U08FY177QQ0",
+        "size": 1884534,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FYYWZYRD5Z/Quarterly%20Report%20(Final).docx",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FYYWZYRD5Z/Quarterly%20Report%20(Final).docx?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/FYYWZYRD5Z/Quarterly%20Report%20(Final).docx"
+      }
+    ],
+    "subtype": "file_share",
+    "edited": {
+      "user": "U08FY177QQ0",
+      "ts": "1767229260"
+    }
+  },
+  {
+    "type": "message",
+    "ts": "1767232800",
+    "text": "<@U01PX3DRDMK> <@U08FY177QQ0> Here is the link you asked for. <https://docs.slack.dev/reference/block-kit/blocks/rich-text-block>",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Here is the link you asked "
+              },
+              {
+                "type": "text",
+                "text": "for.",
+                "style": {
+                  "strike": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://docs.slack.dev/reference/block-kit/blocks/rich-text-block"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "files": [
+      {
+        "id": "F4UXUPR2L3",
+        "created": 1767232800,
+        "timestamp": 1767232800,
+        "name": "Screenshot 2026-01-01 10.30.00.mp3",
+        "title": "Screenshot 2026-01-01 10.30.00.mp3",
+        "mimetype": "audio/mpeg",
+        "filetype": "mp3",
+        "pretty_type": "MP3 Audio",
+        "user": "U01Q6BUB4NQ",
+        "size": 4462681,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-F4UXUPR2L3/Screenshot%202026-01-01%2010.30.00.mp3",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-F4UXUPR2L3/Screenshot%202026-01-01%2010.30.00.mp3?download=1",
+        "permalink": "https://slack.com/files/U01Q6BUB4NQ/F4UXUPR2L3/Screenshot%202026-01-01%2010.30.00.mp3"
+      },
+      {
+        "id": "FLCFCZPCFL",
+        "created": 1767232800,
+        "timestamp": 1767232800,
+        "name": "Quarterly Report (Final).mp4",
+        "title": "Quarterly Report (Final).mp4",
+        "mimetype": "video/mp4",
+        "filetype": "mp4",
+        "pretty_type": "MP4 Video",
+        "user": "U01Q6BUB4NQ",
+        "size": 4583283,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FLCFCZPCFL/Quarterly%20Report%20(Final).mp4",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FLCFCZPCFL/Quarterly%20Report%20(Final).mp4?download=1",
+        "permalink": "https://slack.com/files/U01Q6BUB4NQ/FLCFCZPCFL/Quarterly%20Report%20(Final).mp4"
+      },
+      {
+        "id": "FXY5DCKWLD",
+        "created": 1767232800,
+        "timestamp": 1767232800,
+        "name": "Invoice #12345.png",
+        "title": "Invoice #12345.png",
+        "mimetype": "image/png",
+        "filetype": "png",
+        "pretty_type": "PNG",
+        "user": "U01Q6BUB4NQ",
+        "size": 2275311,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FXY5DCKWLD/Invoice%20%2312345.png",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FXY5DCKWLD/Invoice%20%2312345.png?download=1",
+        "permalink": "https://slack.com/files/U01Q6BUB4NQ/FXY5DCKWLD/Invoice%20%2312345.png"
+      }
+    ],
+    "subtype": "file_share"
+  },
+  {
+    "type": "message",
+    "ts": "1767236400",
+    "text": "<@U01Q6BUB4NQ> <@U01Q6BUB4NQ> I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "I'll send "
+              },
+              {
+                "type": "text",
+                "text": "that",
+                "style": {
+                  "underline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " over shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "files": [
+      {
+        "id": "FTNUI8FQ2W",
+        "created": 1767236400,
+        "timestamp": 1767236400,
+        "name": "specs [draft] (v3).pdf",
+        "title": "specs [draft] (v3).pdf",
+        "mimetype": "application/pdf",
+        "filetype": "pdf",
+        "pretty_type": "PDF",
+        "user": "U01PX3DRDMK",
+        "size": 32529,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FTNUI8FQ2W/specs%20%5Bdraft%5D%20(v3).pdf",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FTNUI8FQ2W/specs%20%5Bdraft%5D%20(v3).pdf?download=1",
+        "permalink": "https://slack.com/files/U01PX3DRDMK/FTNUI8FQ2W/specs%20%5Bdraft%5D%20(v3).pdf"
+      }
+    ],
+    "subtype": "file_share",
+    "reply_count": 3,
+    "reply_users": [
+      "U01PX3DRDMK",
+      "U01Q6BUB4NQ",
+      "U08FY177QQ0"
+    ],
+    "reply_users_count": 3,
+    "latest_reply": "1767236580"
+  },
+  {
+    "type": "message",
+    "ts": "1767236460",
+    "thread_ts": "1767236400",
+    "text": ":clap: <@U01Q6BUB4NQ> <@U08FY177QQ0> Can we schedule a meeting?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "clap"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Can we "
+              },
+              {
+                "type": "text",
+                "text": "schedule",
+                "style": {
+                  "strike": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " a meeting?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "parent_user_id": "U01PX3DRDMK"
+  },
+  {
+    "type": "message",
+    "ts": "1767236520",
+    "thread_ts": "1767236400",
+    "text": "<@U01PX3DRDMK> Thanks for the update.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Thanks for "
+              },
+              {
+                "type": "text",
+                "text": "the",
+                "style": {
+                  "italic": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " update."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "parent_user_id": "U01PX3DRDMK"
+  },
+  {
+    "type": "message",
+    "ts": "1767236580",
+    "thread_ts": "1767236400",
+    "text": "<@U01Q6BUB4NQ> <@U01PX3DRDMK> That sounds great!",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "That "
+              },
+              {
+                "type": "text",
+                "text": "sounds",
+                "style": {
+                  "bold": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " great!"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U01PX3DRDMK",
+    "files": [
+      {
+        "id": "F60RYCRSNY",
+        "created": 1767236580,
+        "timestamp": 1767236580,
+        "name": "Meeting Notes — Q1.mov",
+        "title": "Meeting Notes — Q1.mov",
+        "mimetype": "video/quicktime",
+        "filetype": "mov",
+        "pretty_type": "QuickTime Video",
+        "user": "U08FY177QQ0",
+        "size": 4949207,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-F60RYCRSNY/Meeting%20Notes%20%E2%80%94%20Q1.mov",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-F60RYCRSNY/Meeting%20Notes%20%E2%80%94%20Q1.mov?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/F60RYCRSNY/Meeting%20Notes%20%E2%80%94%20Q1.mov"
+      },
+      {
+        "id": "FR3KKL1JHM",
+        "created": 1767236580,
+        "timestamp": 1767236580,
+        "name": "Design ✨ Mockup.mp3",
+        "title": "Design ✨ Mockup.mp3",
+        "mimetype": "audio/mpeg",
+        "filetype": "mp3",
+        "pretty_type": "MP3 Audio",
+        "user": "U08FY177QQ0",
+        "size": 1174902,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FR3KKL1JHM/Design%20%E2%9C%A8%20Mockup.mp3",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FR3KKL1JHM/Design%20%E2%9C%A8%20Mockup.mp3?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/FR3KKL1JHM/Design%20%E2%9C%A8%20Mockup.mp3"
+      }
+    ],
+    "subtype": "file_share",
+    "reactions": [
+      {
+        "name": "clap",
+        "count": 1,
+        "users": [
+          "U08FY177QQ0"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "ts": "1767240000",
+    "text": "<@U08FY177QQ0> That sounds great! <https://docs.slack.dev/reference/block-kit/blocks/rich-text-block> (edited)",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "That sounds "
+              },
+              {
+                "type": "text",
+                "text": "great!",
+                "style": {
+                  "underline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://docs.slack.dev/reference/block-kit/blocks/rich-text-block"
+              },
+              {
+                "type": "text",
+                "text": " (edited)"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "edited": {
+      "user": "U01PX3DRDMK",
+      "ts": "1767240060"
+    },
+    "reply_count": 3,
+    "reply_users": [
+      "U01PX3DRDMK",
+      "U08FY177QQ0",
+      "U01Q6BUB4NQ"
+    ],
+    "reply_users_count": 3,
+    "latest_reply": "1767240180"
+  },
+  {
+    "type": "message",
+    "ts": "1767240060",
+    "thread_ts": "1767240000",
+    "text": "<@U08FY177QQ0> I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "I'll send that "
+              },
+              {
+                "type": "text",
+                "text": "over",
+                "style": {
+                  "bold": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "parent_user_id": "U01PX3DRDMK"
+  },
+  {
+    "type": "message",
+    "ts": "1767240120",
+    "thread_ts": "1767240000",
+    "text": ":thumbsup: Please review the attached file(s). :fire: <https://slack.com|docs>",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "thumbsup"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Please review "
+              },
+              {
+                "type": "text",
+                "text": "the",
+                "style": {
+                  "bold": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " attached file(s)."
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "emoji",
+                "name": "fire"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://slack.com",
+                "text": "docs"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U01PX3DRDMK",
+    "files": [
+      {
+        "id": "FY32D7SI6F",
+        "created": 1767240120,
+        "timestamp": 1767240120,
+        "name": "specs [draft] (v3).jpg",
+        "title": "specs [draft] (v3).jpg",
+        "mimetype": "image/jpeg",
+        "filetype": "jpg",
+        "pretty_type": "JPEG",
+        "user": "U08FY177QQ0",
+        "size": 857279,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FY32D7SI6F/specs%20%5Bdraft%5D%20(v3).jpg",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FY32D7SI6F/specs%20%5Bdraft%5D%20(v3).jpg?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/FY32D7SI6F/specs%20%5Bdraft%5D%20(v3).jpg"
+      }
+    ],
+    "subtype": "file_share"
+  },
+  {
+    "type": "message",
+    "ts": "1767240180",
+    "thread_ts": "1767240000",
+    "text": ":fire: Here is the link you asked for. <https://docs.slack.dev/reference/block-kit/blocks/rich-text-block|docs> (edited)",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "fire"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Here "
+              },
+              {
+                "type": "text",
+                "text": "is",
+                "style": {
+                  "italic": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " the link you asked for."
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://docs.slack.dev/reference/block-kit/blocks/rich-text-block",
+                "text": "docs"
+              },
+              {
+                "type": "text",
+                "text": " (edited)"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "parent_user_id": "U01PX3DRDMK",
+    "edited": {
+      "user": "U01Q6BUB4NQ",
+      "ts": "1767240210"
+    }
+  },
+  {
+    "type": "message",
+    "ts": "1767243600",
+    "text": "<@U08FY177QQ0> I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "I'll send that "
+              },
+              {
+                "type": "text",
+                "text": "over",
+                "style": {
+                  "underline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "files": [
+      {
+        "id": "FKAMB46IOD",
+        "created": 1767243600,
+        "timestamp": 1767243600,
+        "name": "Meeting Notes — Q1.png",
+        "title": "Meeting Notes — Q1.png",
+        "mimetype": "image/png",
+        "filetype": "png",
+        "pretty_type": "PNG",
+        "user": "U01Q6BUB4NQ",
+        "size": 3860886,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FKAMB46IOD/Meeting%20Notes%20%E2%80%94%20Q1.png",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FKAMB46IOD/Meeting%20Notes%20%E2%80%94%20Q1.png?download=1",
+        "permalink": "https://slack.com/files/U01Q6BUB4NQ/FKAMB46IOD/Meeting%20Notes%20%E2%80%94%20Q1.png"
+      }
+    ],
+    "subtype": "file_share",
+    "reply_count": 3,
+    "reply_users": [
+      "U08FY177QQ0",
+      "U01Q6BUB4NQ"
+    ],
+    "reply_users_count": 2,
+    "latest_reply": "1767243780"
+  },
+  {
+    "type": "message",
+    "ts": "1767243660",
+    "thread_ts": "1767243600",
+    "text": ":thumbsup: <@U01Q6BUB4NQ> Can we schedule a meeting?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "thumbsup"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01Q6BUB4NQ"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Can",
+                "style": {
+                  "underline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " we schedule a meeting?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U01Q6BUB4NQ",
+    "files": [
+      {
+        "id": "FCUYNDX6IE",
+        "created": 1767243660,
+        "timestamp": 1767243660,
+        "name": "Quarterly Report (Final).xlsx",
+        "title": "Quarterly Report (Final).xlsx",
+        "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "filetype": "xlsx",
+        "pretty_type": "Excel Spreadsheet",
+        "user": "U08FY177QQ0",
+        "size": 1402958,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-FCUYNDX6IE/Quarterly%20Report%20(Final).xlsx",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-FCUYNDX6IE/Quarterly%20Report%20(Final).xlsx?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/FCUYNDX6IE/Quarterly%20Report%20(Final).xlsx"
+      },
+      {
+        "id": "F4JHNTTZYT",
+        "created": 1767243660,
+        "timestamp": 1767243660,
+        "name": "Invoice #12345.pdf",
+        "title": "Invoice #12345.pdf",
+        "mimetype": "application/pdf",
+        "filetype": "pdf",
+        "pretty_type": "PDF",
+        "user": "U08FY177QQ0",
+        "size": 3975337,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-F4JHNTTZYT/Invoice%20%2312345.pdf",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-F4JHNTTZYT/Invoice%20%2312345.pdf?download=1",
+        "permalink": "https://slack.com/files/U08FY177QQ0/F4JHNTTZYT/Invoice%20%2312345.pdf"
+      }
+    ],
+    "subtype": "file_share"
+  },
+  {
+    "type": "message",
+    "ts": "1767243720",
+    "thread_ts": "1767243600",
+    "text": "I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "I'll send that over "
+              },
+              {
+                "type": "text",
+                "text": "shortly.",
+                "style": {
+                  "strike": true
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U08FY177QQ0",
+    "parent_user_id": "U01Q6BUB4NQ"
+  },
+  {
+    "type": "message",
+    "ts": "1767243780",
+    "thread_ts": "1767243600",
+    "text": "<@U01PX3DRDMK> <@U01PX3DRDMK> I'll send that over shortly. <https://docs.slack.dev/reference/block-kit/blocks/rich-text-block>",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U01PX3DRDMK"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "I'll send "
+              },
+              {
+                "type": "text",
+                "text": "that",
+                "style": {
+                  "italic": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " over shortly."
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "link",
+                "url": "https://docs.slack.dev/reference/block-kit/blocks/rich-text-block"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "parent_user_id": "U01Q6BUB4NQ"
+  },
+  {
+    "type": "message",
+    "ts": "1767247200",
+    "text": ":clap: Hey, how are you doing? (edited)",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "emoji",
+                "name": "clap"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "Hey, how are "
+              },
+              {
+                "type": "text",
+                "text": "you",
+                "style": {
+                  "underline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " doing? (edited)"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01Q6BUB4NQ",
+    "edited": {
+      "user": "U01Q6BUB4NQ",
+      "ts": "1767247260"
+    }
+  },
+  {
+    "type": "message",
+    "ts": "1767250800",
+    "text": "Here is the link you asked for.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Here",
+                "style": {
+                  "strike": true
+                }
+              },
+              {
+                "type": "text",
+                "text": " is the link you asked for."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U01PX3DRDMK",
+    "files": [
+      {
+        "id": "F00C5YY8WN",
+        "created": 1767250800,
+        "timestamp": 1767250800,
+        "name": "Résumé – José Álvarez.pdf",
+        "title": "Résumé – José Álvarez.pdf",
+        "mimetype": "application/pdf",
+        "filetype": "pdf",
+        "pretty_type": "PDF",
+        "user": "U01PX3DRDMK",
+        "size": 513246,
+        "mode": "hosted",
+        "is_external": false,
+        "external_type": "",
+        "is_public": false,
+        "public_url_shared": false,
+        "url_private": "https://files.slack.com/files-pri/T1234567890-F00C5YY8WN/R%C3%A9sum%C3%A9%20%E2%80%93%20Jos%C3%A9%20%C3%81lvarez.pdf",
+        "url_private_download": "https://files.slack.com/files-pri/T1234567890-F00C5YY8WN/R%C3%A9sum%C3%A9%20%E2%80%93%20Jos%C3%A9%20%C3%81lvarez.pdf?download=1",
+        "permalink": "https://slack.com/files/U01PX3DRDMK/F00C5YY8WN/R%C3%A9sum%C3%A9%20%E2%80%93%20Jos%C3%A9%20%C3%81lvarez.pdf"
+      }
+    ],
+    "subtype": "file_share"
+  }
+]

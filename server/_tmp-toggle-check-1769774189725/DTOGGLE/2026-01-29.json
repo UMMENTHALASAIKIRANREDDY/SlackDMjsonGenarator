@@ -1,0 +1,178 @@
+[
+  {
+    "type": "message",
+    "ts": "1769644800",
+    "text": "I'll send that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "I'll send that over shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769657142",
+    "text": "Can we schedule a meeting?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Can we schedule a meeting?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U2"
+  },
+  {
+    "type": "message",
+    "ts": "1769669485",
+    "text": "Please review the attached file(s).",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Please review the attached file(s)."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769681828",
+    "text": "Thanks for the update.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Thanks for the update."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769694170",
+    "text": "Let me know when you're ready.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Let me know when you're ready."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769706513",
+    "text": "Let me know when you're ready.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Let me know when you're ready."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769718856",
+    "text": "Hey, how are you doing?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Hey, how are you doing?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U1"
+  },
+  {
+    "type": "message",
+    "ts": "1769731199",
+    "text": "Let me know when you're ready.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Let me know when you're ready."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "user": "U2"
+  }
+]

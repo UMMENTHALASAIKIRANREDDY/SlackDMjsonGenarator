@@ -1,0 +1,144 @@
+[
+  {
+    "type": "message",
+    "user": "U01Q6BUB4NQ",
+    "text": "I'll send <@U08FY177QQ0> that over shortly. (edited)",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "I'll send "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " that over shortly. (edited)"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ts": "1767225600",
+    "edited": {
+      "user": "U01Q6BUB4NQ",
+      "ts": "1767225660"
+    }
+  },
+  {
+    "type": "message",
+    "user": "U01Q6BUB4NQ",
+    "text": "I'll send <@U08FY177QQ0> <@U08FY177QQ0> that over shortly.",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "I'll send "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              },
+              {
+                "type": "text",
+                "text": " that over shortly."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ts": "1767229200"
+  },
+  {
+    "type": "message",
+    "user": "U08FY177QQ0",
+    "text": "Hey, how are you doing? <@U08FY177QQ0>",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Hey, how are you doing? "
+              },
+              {
+                "type": "user",
+                "user_id": "U08FY177QQ0"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ts": "1767232800"
+  },
+  {
+    "type": "message",
+    "user": "U08FY177QQ0",
+    "text": "Can we schedule a meeting?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Can we schedule a meeting?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ts": "1767236400"
+  },
+  {
+    "type": "message",
+    "user": "U08FY177QQ0",
+    "text": "Can we schedule a meeting?",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Can we schedule a meeting?"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ts": "1767240000"
+  }
+]
