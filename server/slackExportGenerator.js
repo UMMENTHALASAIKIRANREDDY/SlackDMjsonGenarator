@@ -666,7 +666,11 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
         if (allowFilesWithText || allowMultipleFilesInMessage) kinds.push('file');
         if (kinds.length === 0) kinds.push('file');
 
-        message.files = generateFileUpload({ uploaderId, ts: Number(ts), count: fileCount, kinds, teamId: DEFAULT_TEAM_ID });
+        const ensureKinds = [];
+        if (forceGifFile) ensureKinds.push('gif');
+        if (forceStickerFile) ensureKinds.push('sticker');
+
+        message.files = generateFileUpload({ uploaderId, ts: Number(ts), count: fileCount, kinds, teamId: DEFAULT_TEAM_ID, ensureKinds: ensureKinds.length ? ensureKinds : undefined });
 
         // Slack export format: file messages include upload, display_as_bot
         message.upload = false;
@@ -1133,12 +1137,14 @@ function generateReactions(userIds) {
 }
 
 /**
- * Generates a file upload object (Slack export format: cfqamsg-files-pub-channel style)
+ * Generates a file upload object (Slack export format: cfqamsg-files-pub-channel style).
+ * ensureKinds: optional array of kinds (e.g. ['gif', 'sticker']) that must appear at least once in the result.
  */
-function generateFileUpload({ uploaderId, ts, count, kinds, teamId } = {}) {
+function generateFileUpload({ uploaderId, ts, count, kinds, teamId, ensureKinds } = {}) {
   const created = Number.isFinite(ts) ? Math.floor(ts) : Math.floor(Date.now() / 1000);
   const filesCount = Number.isInteger(count) && count > 0 ? count : 1;
   const team = teamId || DEFAULT_TEAM_ID;
+  const mustInclude = Array.isArray(ensureKinds) ? ensureKinds.filter(Boolean) : [];
 
   const fileDefs = [
     // Normal files
@@ -1195,7 +1201,63 @@ function generateFileUpload({ uploaderId, ts, count, kinds, teamId } = {}) {
   const finalDefs = selectableDefs.length > 0 ? selectableDefs : fileDefs;
 
   const files = [];
-  for (let i = 0; i < filesCount; i++) {
+  const usedEnsure = new Set();
+  for (const kind of mustInclude) {
+    const def = fileDefs.find((d) => d.kind === kind);
+    if (def && !usedEnsure.has(kind)) {
+      usedEnsure.add(kind);
+      const fileId = `F${Math.random().toString(36).slice(2, 11).toUpperCase()}`;
+      const base = def.kind === 'gif' ? pickOne(gifBases) : def.kind === 'sticker' ? pickOne(stickerBases) : pickOne(nameBases);
+      const name = `${base}.${def.ext}`;
+      const size = randInt(10_000, 5_000_000);
+      const user = uploaderId || undefined;
+      const slug = encodeURIComponent(name);
+      const editable = def.filetype === 'text' || def.kind === 'sticker';
+      const mode = editable ? 'snippet' : 'hosted';
+      const file = {
+        id: fileId,
+        created,
+        timestamp: created,
+        name,
+        title: name,
+        mimetype: def.mimetype,
+        filetype: def.filetype,
+        pretty_type: def.pretty_type,
+        user,
+        user_team: team,
+        editable,
+        size,
+        mode,
+        is_external: false,
+        external_type: '',
+        is_public: true,
+        public_url_shared: false,
+        display_as_bot: false,
+        username: '',
+        url_private: `https://files.slack.com/files-pri/${team}-${fileId}/${slug}`,
+        url_private_download: `https://files.slack.com/files-pri/${team}-${fileId}/download/${slug}`,
+        permalink: `https://slack.com/files/${user || 'UUNKNOWN'}/${fileId}/${slug}`,
+        permalink_public: `https://slack-files.com/${team}-${fileId}-${Math.random().toString(36).slice(2, 10)}`,
+        is_starred: false,
+        skipped_shares: true,
+        has_rich_preview: false,
+        file_access: 'visible',
+      };
+      if (editable) file.edit_link = `https://slack.com/files/${user || 'UUNKNOWN'}/${fileId}/${slug}/edit`;
+      if (['pdf', 'docx', 'xlsx'].includes(def.filetype)) {
+        file.media_display_type = 'unknown';
+        const baseUrl = `https://files.slack.com/files-tmb/${team}-${fileId}-${Math.random().toString(36).slice(2, 10)}`;
+        const safeName = name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 40);
+        file.converted_pdf = `${baseUrl}/${safeName}_converted.pdf`;
+        file.thumb_pdf = `${baseUrl}/${safeName}_thumb_pdf.png`;
+        file.thumb_pdf_w = 909;
+        file.thumb_pdf_h = 1286;
+      }
+      files.push(file);
+    }
+  }
+  const remaining = Math.max(0, filesCount - files.length);
+  for (let i = 0; i < remaining; i++) {
     const def = pickOne(finalDefs);
     const fileId = `F${Math.random().toString(36).slice(2, 11).toUpperCase()}`;
     const base =

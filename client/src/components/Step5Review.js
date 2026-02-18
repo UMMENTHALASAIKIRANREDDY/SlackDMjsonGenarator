@@ -44,7 +44,27 @@ function Step5Review({ state, dispatch, onPrev }) {
 
       setSuccess(true);
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Failed to generate export');
+      let errorMessage = err.message || 'Failed to generate export';
+      if (err.response) {
+        const data = err.response.data;
+        if (data && typeof data.text === 'function') {
+          data.text().then((text) => {
+            try {
+              const parsed = JSON.parse(text);
+              setError(parsed.details ? `${parsed.error}: ${parsed.details}` : (parsed.error || text));
+            } catch {
+              setError(`Request failed (${err.response.status}): ${text.slice(0, 200)}`);
+            }
+          }).catch(() => setError(`Request failed with status ${err.response.status}`));
+          return;
+        }
+        if (data && typeof data === 'object' && data.error) {
+          errorMessage = data.details ? `${data.error}: ${data.details}` : data.error;
+        } else {
+          errorMessage = `Request failed with status ${err.response.status}`;
+        }
+      }
+      setError(errorMessage);
       console.error('Export error:', err);
     } finally {
       setLoading(false);
