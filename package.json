@@ -7,7 +7,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd server && node index.js",
     "client": "cd client && npm start",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "validate": "node scripts/validate-export.js",
+    "run-and-validate": "node scripts/run-and-validate.js"
   },
   "keywords": ["slack", "export", "dm", "wizard"],
   "author": "",

@@ -1,6 +1,47 @@
 const fs = require('fs-extra');
 const path = require('path');
 
+const DEFAULT_TEAM_ID = 'T01QQ0VG7EU';
+
+function clientMsgId() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+function randomBlockId() {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let id = '';
+  for (let i = 0; i < 5; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+
+function buildUserProfile(userId) {
+  const hash = Math.random().toString(36).slice(2, 14);
+  return {
+    avatar_hash: `g${hash}`,
+    image_72: `https://secure.gravatar.com/avatar/${hash}.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png`,
+    first_name: userId ? userId.slice(0, 4) : 'User',
+    real_name: userId || 'User',
+    display_name: userId ? userId.toLowerCase().slice(0, 6) : 'user',
+    team: DEFAULT_TEAM_ID,
+    name: userId ? userId.toLowerCase().slice(0, 6) : 'user',
+    is_restricted: false,
+    is_ultra_restricted: false,
+  };
+}
+
+function ensureBlockIds(blocks) {
+  if (!Array.isArray(blocks)) return;
+  for (const block of blocks) {
+    if (block && block.type === 'rich_text' && !block.block_id) {
+      block.block_id = randomBlockId();
+    }
+  }
+}
+
 /**
  * Generates a Slack-compatible DM export structure
  */
@@ -8,13 +49,13 @@ async function generateSlackExport(exportData, exportDir) {
   const { oneOnOneDMs, groupDMs, messageRules } = exportData;
   
   // ==============================
-  // DATE GENERATION (SINGLE SOURCE OF TRUTH)
+  // HARD DATE SAFETY RULE (MANDATORY)
   // ==============================
-  // Generate EXACTLY N dates up-front, once, using ONLY startDate + index.
-  // No message/thread/reply/file logic is allowed to modify dates.
+  // numberOfDates = N → EXACTLY N date files must exist. Message/reply/file count MUST NOT affect date creation.
+  // If generatedDateFiles !== numberOfDates → Abort generation and throw.
   const dateList = generateDateList(messageRules.startDate, messageRules.numberOfDates);
   if (dateList.length !== messageRules.numberOfDates) {
-    throw new Error(`Date generation error: expected ${messageRules.numberOfDates} dates, got ${dateList.length}`);
+    throw new Error(`Date generation error: expected ${messageRules.numberOfDates} dates, got ${dateList.length}. Aborting.`);
   }
   const dateEntries = dateList.map((dateStr) => ({
     dateStr,
@@ -85,14 +126,14 @@ async function generateSlackExport(exportData, exportDir) {
       );
     }
 
-    // Guard (MANDATORY): enforce EXACTLY N date files
+    // HARD ASSERTION: generatedDateFiles must equal numberOfDates (no extra date files)
     const files = await fs.readdir(channelDir);
     const dateFiles = files.filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f));
     if (dateFiles.length !== messageRules.numberOfDates) {
-      throw new Error(`Date file count mismatch for ${dm.channelId}: generated ${dateFiles.length}, expected ${messageRules.numberOfDates}`);
+      throw new Error(`Date file count mismatch for ${dm.channelId}: generated ${dateFiles.length}, expected ${messageRules.numberOfDates}. Aborting ZIP creation.`);
     }
   }
-  
+
   // Process group DMs - create folder directly in exportDir
   for (const groupDM of groupDMs) {
     // Use group name as folder name, directly in exportDir
@@ -111,11 +152,11 @@ async function generateSlackExport(exportData, exportDir) {
       );
     }
 
-    // Guard (MANDATORY): enforce EXACTLY N date files
+    // HARD ASSERTION: generatedDateFiles must equal numberOfDates (no extra date files)
     const files = await fs.readdir(groupDir);
     const dateFiles = files.filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f));
     if (dateFiles.length !== messageRules.numberOfDates) {
-      throw new Error(`Date file count mismatch for ${groupDM.groupName}: generated ${dateFiles.length}, expected ${messageRules.numberOfDates}`);
+      throw new Error(`Date file count mismatch for ${groupDM.groupName}: generated ${dateFiles.length}, expected ${messageRules.numberOfDates}. Aborting ZIP creation.`);
     }
   }
 }
@@ -280,6 +321,144 @@ function getRepliesPerParent(messageRules) {
   return 2; // safe default when threads are enabled
 }
 
+/**
+ * Build ordered list of coverage requirements so each enabled type gets at least one message (round-robin by msgIndex).
+ */
+function buildCoverageRequirements(messageRules, flags) {
+  const req = [];
+  const {
+    formatBold, formatItalic, formatStrikethrough, formatUnderline,
+    includeEmojis, includeMentions, includeDoubleMentions, includeLinks, includeReactions,
+    includeStickers, includeGifs, includeFilesWithText, includeMultipleFiles,
+    includeBotMessages, includePinnedMessages, includeThreads, includeThreadReplies,
+    includeForwardedMessages, includeEditedMessages,
+    allowAnyFiles, enabledStyles,
+  } = flags;
+
+  if (includeBotMessages) req.push('bot');
+  if (includePinnedMessages) req.push('pinned');
+  if (allowAnyFiles && includeMultipleFiles) req.push('multiFile');
+  if (allowAnyFiles && includeStickers) req.push('stickerFile');
+  if (allowAnyFiles && includeGifs) req.push('gifFile');
+  if (allowAnyFiles && includeFilesWithText) req.push('filesWithText');
+  if (allowAnyFiles) req.push('fileOnly'); // at least one file-only message when files enabled
+  if (includeForwardedMessages) req.push('forwarded');
+  if (includeEditedMessages) req.push('edited');
+  if (includeReactions) req.push('reactions');
+  if (includeEmojis) req.push('emojiOnly');
+  if (includeLinks) req.push('link');
+  if (includeEmojis) req.push('emoji');
+  if (includeMentions) req.push('mentionSingle');
+  if (includeMentions && includeDoubleMentions) req.push('mentionDouble');
+  if (formatBold) req.push('bold');
+  if (formatItalic) req.push('italic');
+  if (formatStrikethrough) req.push('strike');
+  if (formatUnderline) req.push('underline');
+
+  return req;
+}
+
+/**
+ * Verify every enabled message type produced at least one message (or reply). If any missing, throw before ZIP.
+ */
+function ensureCoverage(messages, messageRules) {
+  const missing = [];
+  const {
+    formatBold, formatItalic, formatStrikethrough, formatUnderline,
+    includeEmojis, includeMentions, includeDoubleMentions, includeLinks, includeReactions,
+    includeStickers, includeGifs, includeFilesWithText, includeMultipleFiles,
+    includeBotMessages, includePinnedMessages, includeThreads, includeThreadReplies,
+    includeForwardedMessages, includeEditedMessages,
+  } = messageRules;
+
+  function hasStyle(msg, styleKey) {
+    if (!msg.blocks || !Array.isArray(msg.blocks)) return false;
+    for (const block of msg.blocks) {
+      if (block.type !== 'rich_text' || !Array.isArray(block.elements)) continue;
+      for (const el of block.elements) {
+        if (el.type === 'rich_text_section' && Array.isArray(el.elements)) {
+          for (const sub of el.elements) {
+            if (sub.type === 'text' && sub.style && sub.style[styleKey]) return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  function hasElement(msg, type, extra) {
+    if (!msg.blocks || !Array.isArray(msg.blocks)) return false;
+    for (const block of msg.blocks) {
+      if (block.type !== 'rich_text' || !Array.isArray(block.elements)) continue;
+      for (const el of block.elements) {
+        if (el.type === 'rich_text_section' && Array.isArray(el.elements)) {
+          for (const sub of el.elements) {
+            if (sub.type === type) {
+              if (!extra) return true;
+              if (extra === 'user' && sub.user_id) return true;
+              if (extra === 'link' && sub.url) return true;
+              if (extra === 'emoji' && sub.name) return true;
+            }
+          }
+        }
+      }
+    }
+    if (msg.attachments && Array.isArray(msg.attachments)) {
+      for (const att of msg.attachments) {
+        if (att.blocks && Array.isArray(att.blocks)) {
+          for (const b of att.blocks) {
+            if (b.type === 'rich_text' && Array.isArray(b.elements)) {
+              for (const sec of b.elements) {
+                if (sec.elements) {
+                  for (const sub of sec.elements) {
+                    if (sub.type === type) return true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+  function hasFileKind(msg, kind) {
+    if (!msg.files || !Array.isArray(msg.files)) return false;
+    return msg.files.some((f) => f.filetype === (kind === 'gif' ? 'gif' : 'png') && (kind !== 'sticker' || (f.title || f.name || '').toLowerCase().includes('sticker')));
+  }
+  function hasSticker(msg) {
+    if (!msg.files || !Array.isArray(msg.files)) return false;
+    const stickerNames = ['sticker', 'ステッカー'];
+    return msg.files.some((f) => stickerNames.some((s) => (f.name || f.title || '').toLowerCase().includes(s)));
+  }
+  function hasGif(msg) {
+    if (!msg.files || !Array.isArray(msg.files)) return false;
+    return msg.files.some((f) => (f.filetype || f.mimetype || '').includes('gif') || (f.name || f.title || '').toLowerCase().endsWith('.gif'));
+  }
+
+  const flat = Array.isArray(messages) ? messages : [];
+  if (formatBold && !flat.some((m) => hasStyle(m, 'bold'))) missing.push('bold');
+  if (formatItalic && !flat.some((m) => hasStyle(m, 'italic'))) missing.push('italic');
+  if (formatStrikethrough && !flat.some((m) => hasStyle(m, 'strike'))) missing.push('strikethrough');
+  if (formatUnderline && !flat.some((m) => hasStyle(m, 'underline'))) missing.push('underline');
+  if (includeEmojis && !flat.some((m) => hasElement(m, 'emoji'))) missing.push('emoji');
+  if (includeMentions && !flat.some((m) => hasElement(m, 'user', 'user'))) missing.push('mention');
+  if (includeLinks && !flat.some((m) => hasElement(m, 'link', 'link'))) missing.push('link');
+  if (includeReactions && !flat.some((m) => m.reactions && Array.isArray(m.reactions) && m.reactions.length > 0)) missing.push('reactions');
+  if (includeStickers && !flat.some((m) => hasSticker(m) || (m.files && m.files.some((f) => (f.pretty_type || f.name || '').toLowerCase().includes('sticker'))))) missing.push('sticker');
+  if (includeGifs && !flat.some((m) => hasGif(m))) missing.push('gif');
+  if (includeFilesWithText && !flat.some((m) => m.files && m.files.length > 0 && m.text && m.text.trim().length > 0)) missing.push('filesWithText');
+  if (includeMultipleFiles && !flat.some((m) => m.files && m.files.length >= 2)) missing.push('multipleFiles');
+  if (includeBotMessages && !flat.some((m) => m.subtype === 'bot_message')) missing.push('bot_message');
+  if (includePinnedMessages && !flat.some((m) => m.is_pinned === true)) missing.push('pinned');
+  if (includeThreads && includeThreadReplies && !flat.some((m) => m.reply_count != null && m.reply_count > 0)) missing.push('thread_replies');
+  if (includeForwardedMessages && !flat.some((m) => m.attachments && m.attachments.length > 0)) missing.push('forwarded');
+  if (includeEditedMessages && !flat.some((m) => m.edited)) missing.push('edited');
+
+  if (missing.length > 0) {
+    throw new Error(`Coverage check failed: enabled types produced no data: ${missing.join(', ')}. Aborting ZIP creation.`);
+  }
+}
+
 function generateConversationMessagesByDate({ conversationId, participantUserIds, messageRules, dateEntries }) {
   const {
     messagesPerDate,
@@ -350,6 +529,16 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
     throw new Error('Date generation error: dateEntries must be provided');
   }
 
+  // Build coverage requirements: each enabled toggle must produce at least one message (round-robin across msgIndex)
+  const requirements = buildCoverageRequirements(messageRules, {
+    formatBold, formatItalic, formatStrikethrough, formatUnderline,
+    includeEmojis, includeMentions, includeDoubleMentions, includeLinks, includeReactions,
+    includeStickers, includeGifs, includeFilesWithText, includeMultipleFiles,
+    includeBotMessages, includePinnedMessages, includeThreads, includeThreadReplies,
+    includeForwardedMessages, includeEditedMessages,
+    allowAnyFiles, enabledStyles,
+  });
+
   const byDate = {};
   for (const { dateStr } of dateEntries) {
     byDate[dateStr] = [];
@@ -357,9 +546,6 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
 
   for (let dayIndex = 0; dayIndex < dateEntries.length; dayIndex++) {
     const { dateStr, dayStartTs } = dateEntries[dayIndex];
-
-    // Force a visible mix of enabled formatting styles each day (when there are enough messages)
-    const forcedStyleQueue = [...enabledStyles];
 
     const parentMessages = [];
     for (let msgIndex = 0; msgIndex < messagesPerDate; msgIndex++) {
@@ -376,24 +562,39 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
           : Math.floor((msgIndex * latestParentSecond) / (messagesPerDate - 1));
       const ts = (dayStartTs + parentSecond).toString();
 
-      const forceBotMessage = allowBotMessages && msgIndex === 0;
-      const forcePinned = allowPinnedMessages && msgIndex === 1;
-      const forceMultiFile = allowAnyFiles && allowMultipleFilesInMessage && msgIndex === 2;
-      const forceFileOnly = allowAnyFiles && msgIndex === 3;
-      const forceForwarded = Boolean(includeForwardedMessages) && msgIndex === 4;
-      const forceEdited = Boolean(includeEditedMessages) && msgIndex === 5;
-      const forceReactions = allowReactions && msgIndex === 6;
-      const forceEmojiOnly = allowEmojis && msgIndex === 7;
-      const forceLink = allowLinks && (msgIndex === 0 || msgIndex === 5);
-      const forceEmoji = allowEmojis && (msgIndex === 0 || forceFileOnly);
+      // Requirement-driven forcing: every enabled type gets at least one message (round-robin by msgIndex)
+      const reqForMsg = requirements.filter((_, j) => j % messagesPerDate === msgIndex);
+      const forceBotMessage = allowBotMessages && reqForMsg.includes('bot');
+      const forcePinned = allowPinnedMessages && reqForMsg.includes('pinned');
+      const forceMultiFile = allowAnyFiles && allowMultipleFilesInMessage && reqForMsg.includes('multiFile');
+      const forceStickerFile = allowAnyFiles && allowStickerFiles && reqForMsg.includes('stickerFile');
+      const forceGifFile = allowAnyFiles && allowGifFiles && reqForMsg.includes('gifFile');
+      const forceFilesWithText = allowAnyFiles && allowFilesWithText && reqForMsg.includes('filesWithText');
+      const forceFileOnly = allowAnyFiles && (forceStickerFile || forceGifFile || reqForMsg.includes('fileOnly'));
+      const forceForwarded = Boolean(includeForwardedMessages) && reqForMsg.includes('forwarded');
+      const forceEdited = Boolean(includeEditedMessages) && reqForMsg.includes('edited');
+      const forceReactions = allowReactions && reqForMsg.includes('reactions');
+      const forceEmojiOnly = allowEmojis && reqForMsg.includes('emojiOnly');
+      const forceLink = allowLinks && reqForMsg.includes('link');
+      const forceEmoji = allowEmojis && (reqForMsg.includes('emoji') || forceFileOnly);
+      const forceMentionSingle = allowMentions && reqForMsg.includes('mentionSingle');
+      const forceMentionDouble = allowMentions && allowDoubleMentions && reqForMsg.includes('mentionDouble');
+      const forcedStyle = reqForMsg.find((r) => ['bold', 'italic', 'strike', 'underline'].includes(r)) || undefined;
 
       const isBotMessage = participantUserIds.length > 0 && allowBotMessages && (forceBotMessage || chance(0.15));
       const senderId = participantUserIds.length > 0 ? pickOne(participantUserIds) : undefined;
 
-      const forcedStyle = forcedStyleQueue.length > 0 ? forcedStyleQueue.shift() : undefined;
-
       const mentionCandidates = participantUserIds.filter((u) => u && u !== senderId);
-      const content = forceEmojiOnly
+      const forceMentionsList = [];
+      if (forceMentionSingle || forceMentionDouble) {
+        const take = forceMentionDouble && mentionCandidates.length >= 1 ? 2 : 1;
+        forceMentionsList.push(...mentionCandidates.slice(0, take));
+      }
+
+      // Use emoji-only branch only when this message does not also need link/mentions/formatting (so coverage is not lost)
+      const useEmojiOnlyBranch = forceEmojiOnly && !forceLink && forceMentionsList.length === 0 && !forcedStyle;
+
+      const content = useEmojiOnlyBranch
         ? generateRichMessageContent({
             baseText: '',
             includeMentions: false,
@@ -413,11 +614,11 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
             mentionCandidates,
             includeLinks: allowLinks,
             includeEmojis: allowEmojis,
-            forcedStyle,
+            forcedStyle: forcedStyle || undefined,
             allowedStyles: enabledStyles,
             forceLink,
             forceEmoji,
-            forceMentions: allowMentions && msgIndex === 0 ? mentionCandidates.slice(0, 2) : [],
+            forceMentions: forceMentionsList.length ? forceMentionsList : (allowMentions && msgIndex === 0 ? mentionCandidates.slice(0, 2) : []),
           });
 
       /** @type {any} */
@@ -426,7 +627,10 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
         ts,
         text: content.text, // fallback
         blocks: content.blocks,
+        client_msg_id: clientMsgId(),
+        thread_ts: ts,
       };
+      ensureBlockIds(message.blocks);
 
       if (isBotMessage) {
         message.subtype = 'bot_message';
@@ -435,6 +639,11 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
         message.icons = { emoji: ':robot_face:' };
       } else if (senderId) {
         message.user = senderId;
+        message.display_as_bot = false;
+        message.team = DEFAULT_TEAM_ID;
+        message.user_team = DEFAULT_TEAM_ID;
+        message.source_team = DEFAULT_TEAM_ID;
+        message.user_profile = buildUserProfile(senderId);
       }
 
       // Pinned messages
@@ -443,27 +652,34 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
         message.pinned_to = [conversationId];
       }
 
-      // Files (including multiple files + special character names)
-      if (allowAnyFiles && (forceMultiFile || forceFileOnly || chance(0.35))) {
+      // Files (including multiple files + special character names); force at least one per enabled type
+      const forceAnyFile = forceMultiFile || forceStickerFile || forceGifFile || forceFilesWithText || forceFileOnly;
+      if (allowAnyFiles && (forceAnyFile || chance(0.35))) {
         const shouldMulti = allowMultipleFilesInMessage && (forceMultiFile || chance(0.25));
         const fileCount = shouldMulti ? randInt(2, 3) : 1;
         const uploaderId = message.user || pickOne(participantUserIds);
         const kinds = [];
-        if (allowStickerFiles) kinds.push('sticker');
-        if (allowGifFiles) kinds.push('gif');
+        if (forceStickerFile) kinds.push('sticker');
+        if (forceGifFile) kinds.push('gif');
+        if (allowStickerFiles && !forceStickerFile) kinds.push('sticker');
+        if (allowGifFiles && !forceGifFile) kinds.push('gif');
         if (allowFilesWithText || allowMultipleFilesInMessage) kinds.push('file');
         if (kinds.length === 0) kinds.push('file');
 
-        message.files = generateFileUpload({ uploaderId, ts: Number(ts), count: fileCount, kinds });
+        message.files = generateFileUpload({ uploaderId, ts: Number(ts), count: fileCount, kinds, teamId: DEFAULT_TEAM_ID });
+
+        // Slack export format: file messages include upload, display_as_bot
+        message.upload = false;
+        message.display_as_bot = false;
 
         // Slack often uses subtype=file_share for file messages
         if (!message.subtype) {
           message.subtype = 'file_share';
         }
 
-        // If "Files with text" is OFF, force file-only messages.
-        // If ON, still allow occasional file-only messages (realistic).
-        if (!allowFilesWithText || forceFileOnly || chance(0.25)) {
+        // When "Files with text" is forced, keep main content; otherwise allow file-only when forced or by chance
+        const useFileOnly = !forceFilesWithText && (!allowFilesWithText || forceFileOnly || chance(0.25));
+        if (useFileOnly) {
           const fileOnlyContent = generateRichMessageContent({
             baseText: '',
             includeMentions: false,
@@ -563,14 +779,20 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
             thread_ts: parentTs,
             text: replyContent.text,
             blocks: replyContent.blocks,
+            client_msg_id: clientMsgId(),
+            team: DEFAULT_TEAM_ID,
+            user_team: DEFAULT_TEAM_ID,
+            source_team: DEFAULT_TEAM_ID,
           };
 
           if (replySender) {
             reply.user = replySender;
+            reply.user_profile = buildUserProfile(replySender);
           }
           if (parent.user) {
             reply.parent_user_id = parent.user;
           }
+          ensureBlockIds(reply.blocks);
 
           // Replies can include files + text
           const forceReplyFiles = allowAnyFiles && i === 0;
@@ -583,7 +805,7 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
             if (allowFilesWithText || allowMultipleFilesInMessage) kinds.push('file');
             if (kinds.length === 0) kinds.push('file');
 
-            reply.files = generateFileUpload({ uploaderId: reply.user || pickOne(participantUserIds), ts: Number(replyTs), count: fileCount, kinds });
+            reply.files = generateFileUpload({ uploaderId: reply.user || pickOne(participantUserIds), ts: Number(replyTs), count: fileCount, kinds, teamId: DEFAULT_TEAM_ID });
             if (!reply.subtype) reply.subtype = 'file_share';
             if (!allowFilesWithText) {
               const fileOnlyContent = generateRichMessageContent({
@@ -630,12 +852,21 @@ function generateConversationMessagesByDate({ conversationId, participantUserIds
         parent.reply_users = uniqueReplyUsers;
         parent.reply_users_count = uniqueReplyUsers.length;
         parent.latest_reply = replies.length > 0 ? replies[replies.length - 1].ts : undefined;
+        // Slack export format: parent includes replies array of { user, ts } refs
+        parent.replies = replies.map((r) => ({ user: r.user, ts: r.ts }));
+        parent.is_locked = false;
+        parent.subscribed = true;
+        parent.last_read = parent.latest_reply;
 
         parentMessages.push(...replies);
       }
     }
 
     parentMessages.sort((a, b) => parseFloat(a.ts) - parseFloat(b.ts));
+
+    // MANDATORY: before ZIP, verify every enabled type produced at least one message
+    ensureCoverage(parentMessages, messageRules);
+
     byDate[dateStr] = parentMessages;
   }
 
@@ -902,11 +1133,12 @@ function generateReactions(userIds) {
 }
 
 /**
- * Generates a file upload object
+ * Generates a file upload object (Slack export format: cfqamsg-files-pub-channel style)
  */
-function generateFileUpload({ uploaderId, ts, count, kinds } = {}) {
+function generateFileUpload({ uploaderId, ts, count, kinds, teamId } = {}) {
   const created = Number.isFinite(ts) ? Math.floor(ts) : Math.floor(Date.now() / 1000);
   const filesCount = Number.isInteger(count) && count > 0 ? count : 1;
+  const team = teamId || DEFAULT_TEAM_ID;
 
   const fileDefs = [
     // Normal files
@@ -975,6 +1207,9 @@ function generateFileUpload({ uploaderId, ts, count, kinds } = {}) {
     const name = `${base}.${def.ext}`;
     const size = randInt(10_000, 5_000_000);
     const user = uploaderId || undefined;
+    const slug = encodeURIComponent(name);
+    const editable = def.filetype === 'text' || def.kind === 'sticker';
+    const mode = editable ? 'snippet' : 'hosted';
 
     const file = {
       id: fileId,
@@ -986,16 +1221,38 @@ function generateFileUpload({ uploaderId, ts, count, kinds } = {}) {
       filetype: def.filetype,
       pretty_type: def.pretty_type,
       user,
+      user_team: team,
+      editable,
       size,
-      mode: 'hosted',
+      mode,
       is_external: false,
       external_type: '',
-      is_public: false,
+      is_public: true,
       public_url_shared: false,
-      url_private: `https://files.slack.com/files-pri/T1234567890-${fileId}/${encodeURIComponent(name)}`,
-      url_private_download: `https://files.slack.com/files-pri/T1234567890-${fileId}/${encodeURIComponent(name)}?download=1`,
-      permalink: `https://slack.com/files/${user || 'UUNKNOWN'}/${fileId}/${encodeURIComponent(name)}`,
+      display_as_bot: false,
+      username: '',
+      url_private: `https://files.slack.com/files-pri/${team}-${fileId}/${slug}`,
+      url_private_download: `https://files.slack.com/files-pri/${team}-${fileId}/download/${slug}`,
+      permalink: `https://slack.com/files/${user || 'UUNKNOWN'}/${fileId}/${slug}`,
+      permalink_public: `https://slack-files.com/${team}-${fileId}-${Math.random().toString(36).slice(2, 10)}`,
+      is_starred: false,
+      skipped_shares: true,
+      has_rich_preview: false,
+      file_access: 'visible',
     };
+    if (editable) {
+      file.edit_link = `https://slack.com/files/${user || 'UUNKNOWN'}/${fileId}/${slug}/edit`;
+    }
+
+    if (['pdf', 'docx', 'xlsx'].includes(def.filetype)) {
+      file.media_display_type = 'unknown';
+      const baseUrl = `https://files.slack.com/files-tmb/${team}-${fileId}-${Math.random().toString(36).slice(2, 10)}`;
+      const safeName = name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 40);
+      file.converted_pdf = `${baseUrl}/${safeName}_converted.pdf`;
+      file.thumb_pdf = `${baseUrl}/${safeName}_thumb_pdf.png`;
+      file.thumb_pdf_w = 909;
+      file.thumb_pdf_h = 1286;
+    }
 
     files.push(file);
   }
